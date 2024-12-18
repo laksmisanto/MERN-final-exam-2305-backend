@@ -9,7 +9,7 @@ async function createCategoryController(req, res) {
       res.status(404).send({ error: "category name is already exist" });
     } else {
       const category = new categorySchema({ name, courses });
-      category.save();
+      await category.save();
       res
         .status(201)
         .send({ message: "Category created successfully", category });
@@ -43,18 +43,20 @@ async function deleteCategoryController(req, res) {
 
   try {
     const deleteCategory = await categorySchema.findByIdAndDelete({ _id });
-    res.status(201).send({ success: "category delete ", deleteCategory });
+    res
+      .status(201)
+      .send({ success: "category delete successful", deleteCategory });
   } catch (error) {
     return res.status(404).send({ error: error.message });
   }
 }
 async function allCategoryController(req, res) {
   try {
-    const category = await categorySchema.find({});
-    if (category.length > 0) {
-      res.send(category);
+    const allCategory = await categorySchema.find({});
+    if (allCategory.length > 0) {
+      res.send(allCategory);
     } else {
-      res.status(404).send({ error: "category not found" });
+      res.status(404).send({ error: "Category not found" });
     }
   } catch (error) {
     return res.status(404).send({ error: error.message });
@@ -63,7 +65,7 @@ async function allCategoryController(req, res) {
 
 module.exports = {
   createCategoryController,
-  allCategoryController,
-  deleteCategoryController,
   updateCategoryController,
+  deleteCategoryController,
+  allCategoryController,
 };

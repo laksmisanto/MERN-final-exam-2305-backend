@@ -13,6 +13,10 @@ const categorySchema = new mongoose.Schema(
     image: {
       type: String,
     },
+    courseId: {
+      type: mongoose.Schema.ObjectId,
+      ref: "Course",
+    },
   },
   { timestamps: true }
 );
